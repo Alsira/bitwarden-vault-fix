@@ -10,25 +10,27 @@ class Output:
     def __init__(self):
         colorama.init()
 
-    def reset(self) -> None:
+    def __reset(self) -> None:
         
-        print(colorama.Fore.WHITE + colorama.Back.BLACK)
+        print(colorama.Fore.WHITE + colorama.Back.BLACK, end='')
         return
 
-    def warning(self, string: str) -> None:
+    def warning(self, string: str, endline='\n') -> None:
 
-        print(colorama.Fore.LIGHTYELLOW_EX + string)
-        self.reset()
+        print(colorama.Fore.YELLOW + string, end=endline)
+        self.__reset()
         return
     
     def input(self, request: str) -> str:
 
-        result = input(colorama.Fore.GREEN + request, end='')
-        self.reset()
+        print(colorama.Fore.GREEN + request, end='')
+        result = input()
+        self.__reset()
+        print()
         return result
     
-    def fatal(self, string: str) -> None:
+    def fatal(self, string: str, endline='\n') -> None:
 
-        print(colorama.Fore.BLACK + colorama.Back.RED + "ERROR: " + colorama.Fore.RED + colorama.Back.BLACK + string)
-        self.reset()
+        print(colorama.Fore.BLACK + colorama.Back.RED + "ERROR:" + colorama.Fore.RED + colorama.Back.BLACK + ' ' + string, end=endline)
+        self.__reset()
         return
