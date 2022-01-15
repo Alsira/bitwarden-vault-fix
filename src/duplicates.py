@@ -11,8 +11,8 @@ def remove_duplicate_folders(folders: dict, items: dict) -> dict:
     # Search for unique folders
     for key in folders.keys():
 
-        name   = folders[key]['name']
-        id     = folders[key]['id']
+        name = folders[key]['name']
+        id   = folders[key]['id']
 
         # Make sure we are not looking at a copy folder
         if id not in copy_folders_ids:
@@ -36,7 +36,8 @@ def remove_duplicate_folders(folders: dict, items: dict) -> dict:
             # Since we found all the copy folders now, we append the original
             fixed_folders.update({folder_counter: {'name': name, 'id': id}})   
             folder_counter += 1
-
+    
+    return fixed_folders
 
 # Use this first, this will also replace all items with eqivalant
 def remove_duplicate_items(items: dict) -> dict:
@@ -47,9 +48,9 @@ def remove_duplicate_items(items: dict) -> dict:
 
         username = items[key]['login']['username']
         password = items[key]['login']['password']
-        uris = items[key]['login']['uris']
+        uris     = items[key]['login']['uris']
 
-        already_exist = True
+        already_exist = False
         for new_key in new_items.keys():
             
             new_user = new_items[new_key]['login']['username']
@@ -59,10 +60,17 @@ def remove_duplicate_items(items: dict) -> dict:
             # Check username and password
             if new_user == username and new_pass == password:
 
-                # TODO : THIS 😁
-                # Now check for overlapping uris
-                for uri_key in 
+                # Check for the overlappng uris
+                for orig_uri in uris.key():
+                    for copy_uri in new_uris.key():
 
+                        if uris[orig_uri]['uri'] == uris[copy_uri]['uri']:
+                            already_exist = True
 
+            if not already_exist:
+
+                new_items.update(items[key])
+
+    return new_items
 
         
